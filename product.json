@@ -1,0 +1,56 @@
+[
+    {
+    "name": "Product 1",
+    "description": "This is a description of product 1.",
+    "price": 19.99,
+    "image": "https://example.com/product1.jpg",
+    "category": "Electronics",
+    "stock": 10,
+    "rating": 4.5
+    },
+    {
+    "name": "Product 2",
+    "description": "This is a description of product 2.",
+    "price": 24.99,
+    "image": "https://example.com/product2.jpg",
+    "category": "Clothing",
+    "stock": 5,
+    "rating": 4.2
+    },
+    {
+    "name": "Product 3",
+    "description": "This is a description of product 3.",
+    "price": 39.99,
+    "image": "https://example.com/product3.jpg",
+    "category": "Home & Kitchen",
+    "stock": 15,
+    "rating": 4.8
+    },
+    {
+    "name": "Product 4",
+    "description": "This is a description of product 4.",
+    "price": 14.99,
+    "image": "https://example.com/product4.jpg",
+    "category": "Sports & Outdoors",
+    "stock": 8,
+    "rating": 4.0
+    },
+    {
+    "name": "Product 5",
+    "description": "This is a description of product 5.",
+    "price": 29.99,
+    "image": "https://example.com/product5.jpg",
+    "category": "Toys & Games",
+    "stock": 20,
+    "rating": 4.7
+    },
+    {
+    "name": "Product 6",
+    "description": "This is a description of product 6.",
+    "price": 49.99,
+    "image": "https://example.com/product6.jpg",
+    "category": "Books & Music",
+    "stock": 3,
+    "rating": 4.3
+    }
+]
