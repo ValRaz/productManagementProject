@@ -18,19 +18,17 @@ const corsOptions = {
     allowedHeaders: 'Content-Type'
 };
 
-mongodb.initDb((err, mongodb) => {
-    if (err) {
-      console.log(err);
-    } else {
-      app.listen(port);
-      console.log(`Listening on ${port} and connected to Database`);
-    }
-});
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 
-
+mongodb.initDb((err, mongodb) => {
+  if (err) {
+    console.log(err);
+  } else {
+    app.listen(port);
+    console.log(`Listening on ${port} and connected to Database`);
+  }
+});
