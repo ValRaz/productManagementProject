@@ -1,0 +1,36 @@
+### Get all products
+GET http://localhost:3000/api/products
+
+### Get One product
+GET http://localhost:3000/api/products/6650a808c118f651a21a6b1a
+
+### Add a Product
+POST http://localhost:3000/api/products/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"Product 7",
+    "description":"This is a description of product 7.",
+    "price":45.89,
+    "image":"https://example.com/product7.jpg",
+    "category":"tools",
+    "stock":25,
+    "rating":4.5
+}
+
+### (PUT) Update a Product
+PUT http://localhost:3000/api/products/6650a808c118f651a21a6b1b HTTP/1.1
+Content-Type: application/json
+
+{
+    "name":"Product 3",
+    "description":"This is a description of product 3.",
+    "price":45.78,
+    "image":"https://example.com/product3.jpg",
+    "category":"tools",
+    "stock":9,
+    "rating":4.9
+}
+
+### Delete Product
+DELETE http://localhost:3000/api/products/66522b54fa40eb5547cc3460 HTTP/1.1
