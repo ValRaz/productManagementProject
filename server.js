@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const mongodb = require('./config/dbconnect');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-output.json')
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,7 +16,7 @@ const corsOptions = {
     preflightContinue: false,
     optionsSuccessStatus: 204,
     allowedHeaders: 'Content-Type'
-  };
+};
 
 mongodb.initDb((err, mongodb) => {
     if (err) {
@@ -23,8 +25,9 @@ mongodb.initDb((err, mongodb) => {
       app.listen(port);
       console.log(`Listening on ${port} and connected to Database`);
     }
-  });
+});
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
 app.use('/api/users', userRoutes);
