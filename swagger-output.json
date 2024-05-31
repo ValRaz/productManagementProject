@@ -6,7 +6,7 @@
     "version": "1.0.0"
   },
   "host": "localhost:3000",
-  "basePath": "/api/",
+  "basePath": "/",
   "schemes": [
     "http"
   ],
@@ -21,7 +21,7 @@
         }
       }
     },
-    "/products": {
+    "/": {
       "post": {
         "description": "",
         "parameters": [
@@ -80,7 +80,7 @@
         }
       }
     },
-    "/products/{id}": {
+    "/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -114,36 +114,6 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "description": {
-                  "example": "any"
-                },
-                "price": {
-                  "example": "any"
-                },
-                "image": {
-                  "example": "any"
-                },
-                "category": {
-                  "example": "any"
-                },
-                "stock": {
-                  "example": "any"
-                },
-                "rating": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
@@ -158,6 +128,9 @@
           },
           "500": {
             "description": "Internal Server Error"
+          },
+          "default": {
+            "description": ""
           }
         }
       },
@@ -183,11 +156,14 @@
           },
           "500": {
             "description": "Internal Server Error"
+          },
+          "default": {
+            "description": ""
           }
         }
       }
     },
-    "/users": {
+    "/register": {
       "post": {
         "description": "",
         "parameters": [
@@ -223,7 +199,7 @@
         }
       }
     },
-    "/users/login": {
+    "/login": {
       "post": {
         "description": "",
         "parameters": [
