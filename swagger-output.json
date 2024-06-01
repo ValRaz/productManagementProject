@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Contacts API",
+    "title": "User/Products API",
     "description": "User and Product handler",
     "version": "1.0.0"
   },
