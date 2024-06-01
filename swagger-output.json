@@ -80,7 +80,7 @@
         }
       }
     },
-    "/{id}": {
+    "/products/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -107,30 +107,79 @@
         }
       },
       "put": {
-        "description": "",
+        "tags": ["Products"],
+        "description": "Updates a specific product by ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Updated Product Name"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "Updated Product Description"
+                },
+                "price": {
+                  "type": "number",
+                  "example": 123.45
+                },
+                "image": {
+                  "type": "string",
+                  "example": "http://example.com/updated-product-image.jpg"
+                },
+                "category": {
+                  "type": "string",
+                  "example": "Updated Product Category"
+                },
+                "stock": {
+                  "type": "number",
+                  "example": 10
+                },
+                "rating": {
+                  "type": "number",
+                  "example": 4
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Product updated successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Product updated"
+                },
+                "updatedProduct": {
+                  "type": "object",
+                  "$ref": "#/definitions/Product"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
           },
           "404": {
-            "description": "Not Found"
+            "description": "Product not found"
           },
           "500": {
             "description": "Internal Server Error"
-          },
-          "default": {
-            "description": ""
           }
         }
       },
@@ -156,9 +205,6 @@
           },
           "500": {
             "description": "Internal Server Error"
-          },
-          "default": {
-            "description": ""
           }
         }
       }
@@ -232,6 +278,103 @@
           "500": {
             "description": "Internal Server Error"
           }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "description": "Retrieves all users.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "Updates a specific user by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes a specific user by ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          },
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Product": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "image": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "stock": {
+          "type": "number"
+        },
+        "rating": {
+          "type": "number"
         }
       }
     }
