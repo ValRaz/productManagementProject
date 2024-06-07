@@ -5,10 +5,10 @@
     "description": "User and Product handler",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "productmanagementproject.onrender.com",
   "basePath": "/api",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/api-docs": {
