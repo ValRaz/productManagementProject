@@ -12,7 +12,6 @@ const registerUser = async (req, res, next) => {
   const { body } = req;
 
   const { error } = userSchema.validate(body);
-
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
@@ -24,14 +23,9 @@ const registerUser = async (req, res, next) => {
   };
 
   try {
-    const client = await mongodb.connect();
-    const db = client.db("productManagement");
+    const db = mongodb.getDb();
     const collection = db.collection("users");
-
     await collection.insertOne(newUser);
-
-    client.close();
-
     res.status(201).json({ message: "New User Added" });
   } catch (error) {
     console.error(error);
@@ -46,16 +40,13 @@ const loginUser = async (req, res, next) => {
     email: Joi.string().email().required(),
     password: Joi.string().required(),
   }).validate(body);
-
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
 
   try {
-    const client = await mongodb.connect();
-    const db = client.db("productManagement");
+    const db = mongodb.getDb();
     const collection = db.collection("users");
-
     const user = await collection.findOne({ email: body.email });
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
@@ -66,8 +57,6 @@ const loginUser = async (req, res, next) => {
     } else {
       res.status(401).json({ message: "Invalid email or password" });
     }
-
-    client.close();
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error logging in" });
@@ -76,17 +65,12 @@ const loginUser = async (req, res, next) => {
 
 const getAllUsers = async (req, res, next) => {
   try {
-    const client = await mongodb.connect();
-    const db = client.db("productManagement");
+    const db = mongodb.getDb();
     const collection = db.collection("users");
-
     const users = await collection.find().toArray();
-
-    client.close();
-
     res.status(200).json(users);
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching users:", error);
     res.status(500).json({ message: "Error fetching users" });
   }
 };
@@ -99,17 +83,12 @@ const getUserById = async (req, res, next) => {
   }
 
   try {
-    const client = await mongodb.connect();
-    const db = client.db("productManagement");
+    const db = mongodb.getDb();
     const collection = db.collection("users");
-
     const user = await collection.findOne({ _id: new ObjectId(userId) });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    client.close();
-
     res.status(200).json(user);
   } catch (error) {
     console.error(error);
@@ -132,26 +111,19 @@ const updateUser = async (req, res, next) => {
   });
 
   const { error } = updateSchema.validate(body);
-
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
 
   try {
-    const client = await mongodb.connect();
-    const db = client.db("productManagement");
+    const db = mongodb.getDb();
     const collection = db.collection("users");
-
     const update = { $set: body };
-
     await collection.updateOne({ _id: new ObjectId(userId) }, update);
-
-    client.close();
-
     res.status(200).json({ message: "User updated successfully" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Errorexpand_more updating user" });
+    console.error("Error updating user:", error);
+    res.status(500).json({ message: "Error updating user" });
   }
 };
 
@@ -163,18 +135,13 @@ const deleteUser = async (req, res, next) => {
   }
 
   try {
-    const client = await mongodb.connect();
-    const db = client.db("productManagement");
+    const db = mongodb.getDb();
     const collection = db.collection("users");
-
     await collection.deleteOne({ _id: new ObjectId(userId) });
-
-    client.close();
-
     res.status(200).json({ message: "User deleted successfully" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Errorexpand_more deleting user" });
+    console.error("Error deleting user:", error);
+    res.status(500).json({ message: "Error deleting user" });
   }
 };
 
