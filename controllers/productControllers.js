@@ -118,11 +118,11 @@ const deleteProduct = async (req, res, next) => {
     const deletedProduct = await collection.findOneAndDelete({ _id: new ObjectId(productId) });
 
     res.setHeader('Content-Type', 'application/json');
-    if (!deletedProduct.value) {
+    if (deletedProduct.value) {
+      return res.status(200).json({ message: "Product removed from catalog", deletedProduct: deletedProduct.value });
+    } else {
       return res.status(404).json({ message: "Product not found" });
     }
-
-    res.status(200).json({ message: "Product removed from catalog", deletedProduct: deletedProduct.value });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error removing product" });
