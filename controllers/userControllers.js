@@ -25,7 +25,7 @@ const registerUser = async (req, res, next) => {
 
   try {
     const client = await mongodb.connect();
-    const db = client.db("yourDatabaseName");
+    const db = client.db("productManagement");
     const collection = db.collection("users");
 
     await collection.insertOne(newUser);
@@ -53,7 +53,7 @@ const loginUser = async (req, res, next) => {
 
   try {
     const client = await mongodb.connect();
-    const db = client.db("yourDatabaseName");
+    const db = client.db("productManagement");
     const collection = db.collection("users");
 
     const user = await collection.findOne({ email: body.email });
@@ -77,7 +77,7 @@ const loginUser = async (req, res, next) => {
 const getAllUsers = async (req, res, next) => {
   try {
     const client = await mongodb.connect();
-    const db = client.db("yourDatabaseName");
+    const db = client.db("productManagement");
     const collection = db.collection("users");
 
     const users = await collection.find().toArray();
@@ -100,7 +100,7 @@ const getUserById = async (req, res, next) => {
 
   try {
     const client = await mongodb.connect();
-    const db = client.db("yourDatabaseName");
+    const db = client.db("productManagement");
     const collection = db.collection("users");
 
     const user = await collection.findOne({ _id: new ObjectId(userId) });
@@ -139,7 +139,7 @@ const updateUser = async (req, res, next) => {
 
   try {
     const client = await mongodb.connect();
-    const db = client.db("yourDatabaseName");
+    const db = client.db("productManagement");
     const collection = db.collection("users");
 
     const update = { $set: body };
@@ -164,7 +164,7 @@ const deleteUser = async (req, res, next) => {
 
   try {
     const client = await mongodb.connect();
-    const db = client.db("yourDatabaseName");
+    const db = client.db("productManagement");
     const collection = db.collection("users");
 
     await collection.deleteOne({ _id: new ObjectId(userId) });
