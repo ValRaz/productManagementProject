@@ -81,6 +81,7 @@ const updateProduct = async (req, res, next) => {
   const { error } = productSchema.validate(body);
 
   if (error) {
+    res.setHeader('Content-Type', 'application/json');
     return res.status(400).json({ message: error.details[0].message });
   }
 
@@ -92,6 +93,7 @@ const updateProduct = async (req, res, next) => {
       { returnDocument: "after" }
     );
 
+    res.setHeader('Content-Type', 'application/json');
     if (!updatedProduct.value) {
       return res.status(404).json({ message: "Product not found" });
     }
@@ -107,6 +109,7 @@ const deleteProduct = async (req, res, next) => {
   const productId = req.params.id;
 
   if (!ObjectId.isValid(productId)) {
+    res.setHeader('Content-Type', 'application/json');
     return res.status(400).json({ message: "Invalid product ID format" });
   }
 
@@ -114,6 +117,7 @@ const deleteProduct = async (req, res, next) => {
     const collection = await mongodb.getDb().collection("products");
     const deletedProduct = await collection.findOneAndDelete({ _id: new ObjectId(productId) });
 
+    res.setHeader('Content-Type', 'application/json');
     if (!deletedProduct.value) {
       return res.status(404).json({ message: "Product not found" });
     }
