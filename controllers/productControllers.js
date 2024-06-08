@@ -13,6 +13,16 @@ const productSchema = Joi.object({
   rating: Joi.number().required().min(0).max(5),
 });
 
+const productUpdateSchema = Joi.object({
+  name: Joi.string(),
+  description: Joi.string(),
+  price: Joi.number().positive(),
+  image: Joi.string(),
+  category: Joi.string(),
+  stock: Joi.number().positive(),
+  rating: Joi.number().min(0).max(5),
+});
+
 const productCreateSchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string().required(),
@@ -91,7 +101,7 @@ const updateProduct = async (req, res, next) => {
 
   body._id = productId;
 
-  const { error } = productSchema.validate(body);
+  const { error } = productUpdateSchema.validate(body);
 
   if (error) {
     res.setHeader('Content-Type', 'application/json');
