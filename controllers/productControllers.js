@@ -90,9 +90,11 @@ const updateProduct = async (req, res, next) => {
   const productId = req.params.id;
   const { body } = req;
 
-  body._id = productId;
+  const updateFields = { ...body };
+  
+  delete updateFields._id; 
 
-  const { error } = productSchema.validate(body);
+  const { error } = productSchema.validate(updateFields);
 
   if (error) {
     res.setHeader('Content-Type', 'application/json');
