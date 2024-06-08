@@ -3,6 +3,17 @@ const { ObjectId } = require("mongodb");
 const Joi = require("joi");
 
 const productSchema = Joi.object({
+  _id: Joi.string().required(),
+  name: Joi.string().required(),
+  description: Joi.string().required(),
+  price: Joi.number().required().positive(),
+  image: Joi.string().required(),
+  category: Joi.string().required(),
+  stock: Joi.number().required().positive(),
+  rating: Joi.number().required().min(0).max(5),
+});
+
+const productCreateSchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string().required(),
   price: Joi.number().required().positive(),
@@ -15,7 +26,7 @@ const productSchema = Joi.object({
 const createProduct = async (req, res, next) => {
   const { body } = req;
 
-  const { error } = productSchema.validate(body);
+  const { error } = productCreateSchema.validate(body);
 
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
@@ -77,6 +88,8 @@ const getProductById = async (req, res, next) => {
 const updateProduct = async (req, res, next) => {
   const productId = req.params.id;
   const { body } = req;
+
+  body._id = productId;
 
   const { error } = productSchema.validate(body);
 

@@ -29,16 +29,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": { "example": "any" },
-                "description": { "example": "any" },
-                "price": { "example": "any" },
-                "image": { "example": "any" },
-                "category": { "example": "any" },
-                "stock": { "example": "any" },
-                "rating": { "example": "any" }
-              }
+              "$ref": "#/definitions/Product"
             }
           }
         ],
@@ -88,16 +79,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": { "type": "string", "example": "Updated Product Name" },
-                "description": { "type": "string", "example": "Updated Product Description" },
-                "price": { "type": "number", "example": 123.45 },
-                "image": { "type": "string", "example": "http://example.com/updated-product-image.jpg" },
-                "category": { "type": "string", "example": "Updated Product Category" },
-                "stock": { "type": "number", "example": 10 },
-                "rating": { "type": "number", "example": 4 }
-              }
+              "$ref": "#/definitions/Product"
             }
           }
         ],
@@ -143,12 +125,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": { "example": "any" },
-                "email": { "example": "any" },
-                "password": { "example": "any" }
-              }
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -169,9 +146,10 @@
             "schema": {
               "type": "object",
               "properties": {
-                "email": { "example": "any" },
-                "password": { "example": "any" }
-              }
+                "email": { "type": "string", "example": "any" },
+                "password": { "type": "string", "example": "any" }
+              },
+              "required": ["email", "password"]
             }
           }
         ],
@@ -224,12 +202,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": { "type": "string", "example": "Updated User Name" },
-                "email": { "type": "string", "example": "Updated User Email" },
-                "password": { "type": "string", "example": "Updated User Password" }
-              }
+              "$ref": "#/definitions/User"
             }
           }
         ],
@@ -272,6 +245,7 @@
     "Product": {
       "type": "object",
       "properties": {
+        "id": { "type": "string" },
         "name": { "type": "string" },
         "description": { "type": "string" },
         "price": { "type": "number" },

@@ -9,13 +9,13 @@ POST http://localhost:3000/api/products/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "name":"Product 7",
-    "description":"This is a description of product 7.",
-    "price":45.89,
-    "image":"https://example.com/product7.jpg",
-    "category":"tools",
-    "stock":25,
-    "rating":4.5
+    "name": "Product 8",
+    "description": "This is a description of product 8.",
+    "price":42.56,
+    "image": "https://example.com/product8.jpg",
+    "category": "luxury",
+    "stock":15,
+    "rating":5.0
 }
 
 ### (PUT) Update a Product
