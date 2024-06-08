@@ -90,27 +90,21 @@ const updateProduct = async (req, res, next) => {
   const productId = req.params.id;
   const { body } = req;
 
-  const updateFields = { ...body }; // Create a copy of the body
-  delete updateFields._id; // Remove _id field from the update fields
+  delete body._id;
 
-  const { error } = productSchema.validate(updateFields); // Validate updated fields
+  const { error } = productSchema.validate(body);
 
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
 
   try {
-    console.log("Updating product with ID:", productId);
-    console.log("Updated fields:", updateFields);
-
     const collection = await mongodb.getDb().collection("products");
     const updatedProduct = await collection.findOneAndUpdate(
       { _id: new ObjectId(productId) },
-      { $set: updateFields },
+      { $set: body },
       { returnDocument: "after" }
     );
-
-    console.log("Updated product:", updatedProduct);
 
     if (!updatedProduct.value) {
       return res.status(404).json({ message: "Product not found" });
@@ -118,7 +112,7 @@ const updateProduct = async (req, res, next) => {
 
     res.status(200).json({ message: "Product updated", updatedProduct: updatedProduct.value });
   } catch (error) {
-    console.error("Error updating product:", error);
+    console.error(error);
     res.status(500).json({ message: "Error updating product" });
   }
 };
