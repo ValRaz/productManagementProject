@@ -8,21 +8,24 @@ const userSchema = Joi.object({
   password: Joi.string().required()
 });
 
+const saltRounds = 10;
+
 const registerUser = async (req, res, next) => {
   const { body } = req;
-
-  const { error } = userSchema.validate(body);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
-
-  const newUser = {
-    name: body.name,
-    email: body.email,
-    password: body.password,
-  };
-
   try {
+    const { error } = userSchema.validate(body);
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+
+    const hashedPassword = await bcrypt.hash(body.password, saltRounds);
+
+    const newUser = {
+      name: body.name,
+      email: body.email,
+      password: hashedPassword,
+    };
+
     const db = mongodb.getDb();
     const collection = db.collection("users");
     await collection.insertOne(newUser);
@@ -35,25 +38,28 @@ const registerUser = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
   const { body } = req;
-
-  const { error } = Joi.object({
-    email: Joi.string().email().required(),
-    password: Joi.string().required(),
-  }).validate(body);
-  if (error) {
-    return res.status(400).json({ message: error.details[0].message });
-  }
-
   try {
+    const { error } = Joi.object({
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    }).validate(body);
+
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message });
+    }
+
     const db = mongodb.getDb();
     const collection = db.collection("users");
     const user = await collection.findOne({ email: body.email });
+
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    if (user.password === body.password) {
-      res.status(200).json({ message: "Login successful" });
+    const passwordMatch = await bcrypt.compare(body.password, user.password);
+    if (passwordMatch) {
+      const token = jwt.sign({ userId: user._id }, "yourSecretKey", { expiresIn: "1h" });
+      res.status(200).json({ message: "Login successful", token });
     } else {
       res.status(401).json({ message: "Invalid email or password" });
     }
