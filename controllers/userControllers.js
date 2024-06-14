@@ -1,6 +1,8 @@
 const mongodb = require("../config/dbconnect");
 const { ObjectId } = require("mongodb");
 const Joi = require("joi");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const userSchema = Joi.object({
   name: Joi.string().required(),
@@ -58,7 +60,7 @@ const loginUser = async (req, res, next) => {
 
     const passwordMatch = await bcrypt.compare(body.password, user.password);
     if (passwordMatch) {
-      const token = jwt.sign({ userId: user._id }, "yourSecretKey", { expiresIn: "1h" });
+      const token = jwt.sign({ userId: user._id }, "972cba3ad0cc474d06e8fa38d3e2359028fd80320b1257d0a64027e648e11bfc454af93714fab1bf3fc46f04eac7d800fa623259c9011dc6177813e00c259bff", { expiresIn: "1h" });
       res.status(200).json({ message: "Login successful", token });
     } else {
       res.status(401).json({ message: "Invalid email or password" });
@@ -122,9 +124,17 @@ const updateUser = async (req, res, next) => {
   }
 
   try {
+    const hashedPassword = await bcrypt.hash(body.password, saltRounds);
+
     const db = mongodb.getDb();
     const collection = db.collection("users");
-    const update = { $set: body };
+    const update = { 
+      $set: { 
+        name: body.name,
+        email: body.email,
+        password: hashedPassword
+      } 
+    };
     await collection.updateOne({ _id: new ObjectId(userId) }, update);
     res.status(200).json({ message: "User updated successfully" });
   } catch (error) {
